@@ -6,13 +6,13 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:13:09 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/02 10:18:22 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/02 11:13:37 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	ft_error(void)
+void	ft_error_c(void)
 {
 	ft_putstr_fd("Error in signal sending or process does not exist\n", 2);
 	exit(EXIT_FAILURE);

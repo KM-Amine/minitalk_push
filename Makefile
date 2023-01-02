@@ -14,7 +14,7 @@ BCLIENT = client_bonus
 BSERVER = server_bonus
 
 BCOBJ = client_bonus.o client_bonus_utils.o
-BSOBJ = server_bonus.o
+BSOBJ = server_bonus.o server_bonus_utils.o
 
 LIBFT = libft/libft.a 
 

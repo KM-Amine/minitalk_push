@@ -6,13 +6,11 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/02 10:56:26 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/02 11:46:22 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-
 
 void	unicode_buffer(unsigned char c, int pid)
 {
@@ -35,16 +33,6 @@ void	unicode_buffer(unsigned char c, int pid)
 		ft_printf("%s", buff[pid]);
 		ft_bzero(buff[pid], 5);
 	}
-}
-
-void	kill_system(int pid)
-{
-	usleep(50);
-	if (kill(pid, SIGUSR1) == -1)
-		ft_error_s();
-		usleep(50);
-		if (kill(info->si_pid, SIGUSR1) == -1)
-			ft_error();
 }
 
 void	signal_processing(int sig, int pid, unsigned char (*c)[100000])
