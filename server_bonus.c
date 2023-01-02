@@ -6,62 +6,57 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/01 13:31:23 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/02 10:51:02 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <limits.h>
 
 
 
-void	ft_error(void)
+void	unicode_buffer(unsigned char c, int pid)
 {
-	ft_putstr_fd("Error in signal sending or process does not exist\n", 2);
-	exit(EXIT_FAILURE);
-}
-
-int unicode_checker(unsigned char c)
-{
-	int i;
-
-	i = 0;
-	if ((c & 0x80) == 0)
-		i = 1;
-	else if ((c & 0xC0) != 0 && (c & 0x20) == 0)
-		i = 2;
-	else if ((c & 0xE0) != 0 && (c & 0x10) == 0)
-		i = 3;
-	else if ((c & 0xF0) != 0 && (c & 0x8) == 0)
-		i = 4;
-	return (i);
-}
-
-void unicode_buffer(unsigned char c, int pid)
-{
-	static int status[100000];
-	static unsigned char buff[100000][5];
-	static int counter[100000];
+	static int				status[100000];
+	static unsigned char	buff[100000][5];
+	static int				counter[100000];
 
 	if (counter[pid] == 0)
 	{
 		status[pid] = unicode_checker(c);
-		counter[pid]  = status[pid] ;
+		counter[pid] = status[pid];
 	}
-	if(counter[pid] != 0)
+	if (counter[pid] != 0)
 	{
 		buff[pid][status[pid] - counter[pid]] = c;
 		counter[pid]--;
-		
 	}
 	if (counter[pid] == 0)
 	{
-		ft_printf("%s",buff[pid]);
-		ft_bzero(buff[pid],5);
+		ft_printf("%s", buff[pid]);
+		ft_bzero(buff[pid], 5);
 	}
 }
 
+void	kill_system(int pid)
+{
+	usleep(50);
+	if (kill(pid, SIGUSR1) == -1)
+		ft_error_s();
+}
 
+void	signal_processing(int sig, int pid, unsigned char (*c)[100000])
+{
+	if (sig == SIGUSR1)
+	{
+		(*c)[pid] |= (unsigned char)(1 << 7);
+		kill_system(pid);
+	}
+	else if (sig == SIGUSR2)
+	{
+		(*c)[pid] |= (unsigned char)0;
+		kill_system(pid);
+	}
+}
 
 void	handler_action(int sig, siginfo_t *info, void *str)
 {
@@ -70,26 +65,13 @@ void	handler_action(int sig, siginfo_t *info, void *str)
 
 	(void)str;
 	if (info->si_pid == 0)
-		return;
-	if (sig == SIGUSR1)
-	{
-		c[info->si_pid] |= (unsigned char)(1 << 7);
-		usleep(50);
-		if (kill(info->si_pid, SIGUSR1) == -1)
-			ft_error();
-	}
-	else if (sig == SIGUSR2)
-	{
-		c[info->si_pid] |= (unsigned char)0;
-		usleep(50);
-		if (kill(info->si_pid, SIGUSR2) == -1)
-			ft_error();
-	}
+		return ;
+	signal_processing(sig, info->si_pid, &c);
 	if (i[info->si_pid] < 7)
 		c[info->si_pid] >>= 1;
 	if (i[info->si_pid] == 7)
 	{
-		unicode_buffer(c[info->si_pid],info->si_pid);
+		unicode_buffer(c[info->si_pid], info->si_pid);
 		c[info->si_pid] = 0;
 		i[info->si_pid] = 0;
 		return ;
@@ -116,8 +98,6 @@ int	main(int argc, char	**argv)
 	sigaction(SIGUSR2, &new_handler, NULL);
 	ft_printf("- process id of the server : %d\n", getpid());
 	while (1)
-	{
 		pause();
-	}
 	return (0);
 }

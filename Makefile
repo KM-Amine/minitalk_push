@@ -10,10 +10,10 @@ SERVER = server
 COBJ = client.o
 SOBJ = server.o
 
-BCLIENT = client_bonus
+BCLIENT = client_bonus 
 BSERVER = server_bonus
 
-BCOBJ = client_bonus.o
+BCOBJ = client_bonus.o client_bonus_utils.o
 BSOBJ = server_bonus.o
 
 LIBFT = libft/libft.a 
@@ -23,7 +23,7 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(CLIENT) $(SERVER) 
 
 $(LIBFT) :
-	$(MAKE) -C custom_libft
+	$(MAKE) -C libft
 
 $(CLIENT):$(COBJ)
 	$(CC) $(CFLAGS) $(LIBFT) $(COBJ)  -o $(CLIENT) 
@@ -42,9 +42,11 @@ $(BSERVER):$(BSOBJ)
 
 clean:
 	$(RM) $(COBJ) $(SOBJ) $(BCOBJ) $(BSOBJ)
-	$(MAKE) fclean -C custom_libft
+	$(MAKE) fclean -C libft
 fclean: clean
 	$(RM) $(CLIENT) $(SERVER) $(BSERVER) $(BCLIENT)
 re: fclean all
+
+bre: fclean bonus
 
 .PHONY: all clean fclean re bonus

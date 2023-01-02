@@ -6,13 +6,12 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 14:41:15 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/01 17:26:36 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/02 09:51:54 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include<stdio.h>
 # include<stdlib.h>
 # include<unistd.h>
 

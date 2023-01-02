@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   client_bonus_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/22 15:09:22 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/02 10:50:40 by mkhellou         ###   ########.fr       */
+/*   Created: 2023/01/02 10:13:09 by mkhellou          #+#    #+#             */
+/*   Updated: 2023/01/02 10:18:22 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "minitalk.h"
 
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include "libft/libft.h"
+void	ft_error(void)
+{
+	ft_putstr_fd("Error in signal sending or process does not exist\n", 2);
+	exit(EXIT_FAILURE);
+}
 
-void	handler(int sig);
-void	input(unsigned char *str, int pid);
-void	sleep_system(void);
-void	ft_error_c(void);
-void	ft_error_s(void);
-
-#endif
+void	sleep_system(void)
+{
+	if (sleep(5) == 0)
+	{
+		ft_putstr_fd("server dead or busy with an other client\n", 2);
+		exit(EXIT_FAILURE);
+	}
+}
