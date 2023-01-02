@@ -1,9 +1,9 @@
 NAME = client-server
-CC = gcc
-AR = ar rcs
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -I .
 RM = rm -rf
 HEADER  = minitalk.h
+
 CLIENT = client
 SERVER = server
 
@@ -16,7 +16,7 @@ BSERVER = server_bonus
 BCOBJ = client_bonus.o
 BSOBJ = server_bonus.o
 
-LIBFT = custom_libft/libft.a 
+LIBFT = libft/libft.a 
 
 all: $(NAME)
 
@@ -24,6 +24,7 @@ $(NAME): $(LIBFT) $(CLIENT) $(SERVER)
 
 $(LIBFT) :
 	$(MAKE) -C custom_libft
+
 $(CLIENT):$(COBJ)
 	$(CC) $(CFLAGS) $(LIBFT) $(COBJ)  -o $(CLIENT) 
 $(SERVER):$(SOBJ)
@@ -32,7 +33,7 @@ $(SERVER):$(SOBJ)
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< 
 
-bonus: $(LIBFT)$(BCLIENT) $(BSERVER) 
+bonus: $(LIBFT) $(BCLIENT) $(BSERVER)
 
 $(BCLIENT):$(BCOBJ)
 	$(CC) $(CFLAGS) $(LIBFT) $(BCOBJ) -o $(BCLIENT)
