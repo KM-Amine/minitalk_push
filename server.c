@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/02 11:16:36 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/02 12:31:49 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	main(int argc, char	**argv)
 		exit(EXIT_FAILURE);
 	}
 	sigemptyset(&set);
+	sigaddset(&set, SIGUSR1);
+	sigaddset(&set, SIGUSR2);
 	new_handler.sa_flags = SA_SIGINFO;
 	new_handler.sa_mask = set;
 	new_handler.sa_sigaction = handler_action;
