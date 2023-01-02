@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/02 10:51:02 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/02 10:56:26 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void	kill_system(int pid)
 	usleep(50);
 	if (kill(pid, SIGUSR1) == -1)
 		ft_error_s();
+		usleep(50);
+		if (kill(info->si_pid, SIGUSR1) == -1)
+			ft_error();
 }
 
 void	signal_processing(int sig, int pid, unsigned char (*c)[100000])
@@ -49,12 +52,16 @@ void	signal_processing(int sig, int pid, unsigned char (*c)[100000])
 	if (sig == SIGUSR1)
 	{
 		(*c)[pid] |= (unsigned char)(1 << 7);
-		kill_system(pid);
+		usleep(50);
+		if (kill(pid, SIGUSR1) == -1)
+			ft_error_s();
 	}
 	else if (sig == SIGUSR2)
 	{
 		(*c)[pid] |= (unsigned char)0;
-		kill_system(pid);
+		usleep(50);
+		if (kill(pid, SIGUSR2) == -1)
+			ft_error_s();
 	}
 }
 
